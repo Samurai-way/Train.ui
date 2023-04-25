@@ -35,7 +35,10 @@ export const ShowTrains = () => {
     const handleCloseModalClick = () => {
         setShowModal(false);
     };
-
+    const onCLoseModalHandler = () => {
+        console.log(show)
+        setShow(false)
+    }
     return (
         <div>
             <h2>Where are you traveling from and to?</h2>
@@ -55,7 +58,7 @@ export const ShowTrains = () => {
                 />
             )}
             {show && (
-                <Trains isOpen={show} onClose={handleShowTrainsClick} trains={trains}/>
+                <Trains isOpen={show} onClose={onCLoseModalHandler} trains={trains}/>
             )}
         </div>
     );
