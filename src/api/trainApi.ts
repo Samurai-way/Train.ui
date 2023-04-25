@@ -20,7 +20,8 @@ export const createTrainTrip = async (trainInfo: TrainInfo) => {
         }, {
             headers: {
                 'Content-Type': 'application/json'
-            }
+            },
+            withCredentials: true
         });
         return status === 204;
     } catch (error) {
