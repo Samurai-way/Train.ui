@@ -8,25 +8,25 @@ interface TrainModalProps {
 }
 
 export const Train: React.FC<TrainModalProps> = ({ isOpen, onClose }) => {
-    const [from, setFrom] = useState<string>('');
-    const [to, setTo] = useState<string>('');
-    const [date, setDate] = useState<string>('');
+    const [fromPlace, setFromPlace] = useState<string>('');
+    const [toPlace, setToPlace] = useState<string>('');
+    const [departureTime, setDepartureTime] = useState<string>('');
 
     const handleFromChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setFrom(event.target.value);
+        setFromPlace(event.target.value);
     };
 
     const handleToChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setTo(event.target.value);
+        setToPlace(event.target.value);
     };
 
     const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setDate(event.target.value);
+        setDepartureTime(event.target.value);
     };
 
     const handleCreateTripClick = () => {
-        console.log(`Creating trip from ${from} to ${to} on ${date}`);
-        // Implement logic to create a new trip here
+        console.log(`${fromPlace} to ${toPlace} on ${departureTime}`);
+        // Implement logic toPlace create a new trip here
         onClose();
     };
 
@@ -34,13 +34,13 @@ export const Train: React.FC<TrainModalProps> = ({ isOpen, onClose }) => {
         <div className={styles.modal}>
             <h2>Create a new trip</h2>
             <label htmlFor="from-input">From: </label>
-            <input type="text" id="from-input" value={from} onChange={handleFromChange} />
+            <input type="text" id="from-input" value={fromPlace} onChange={handleFromChange} />
             <br />
             <label htmlFor="to-input">To: </label>
-            <input type="text" id="to-input" value={to} onChange={handleToChange} />
+            <input type="text" id="to-input" value={toPlace} onChange={handleToChange} />
             <br />
             <label htmlFor="date-input">Date: </label>
-            <input type="date" id="date-input" value={date} onChange={handleDateChange} />
+            <input type="date" id="date-input" value={departureTime} onChange={handleDateChange} />
             <br />
             <button onClick={handleCreateTripClick}>Create Trip</button>
             <button onClick={onClose}>Close</button>
