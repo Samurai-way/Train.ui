@@ -3,7 +3,6 @@ import Modal from "react-bootstrap/Modal";
 import {createTrain} from "../../api/trainApi";
 import {Button, Form, Row} from "react-bootstrap";
 
-
 interface Props {
     show: boolean;
     onHide: () => void;
@@ -17,23 +16,19 @@ export const Train: React.FC<Props> = ({ show, onHide }) => {
     const [departureYear, setDepartureYear] = useState<string>('');
     const [availablePlaces, setAvailablePlaces] = useState<string>('');
 
-    const finalDate = departureYear + departureMonth + departureDay;
-
     const addTrain = () => {
-        const formData = new FormData();
-        formData.append('fromPlace', fromPlace);
-        formData.append('toPlace', toPlace);
-        formData.append('departureTime', finalDate);
-        formData.append('availablePlaces', availablePlaces);
-        createTrain(formData).then(data => onHide());
+        const finalDate = `${departureYear}-${departureMonth}-${departureDay}`;
+        const trainData = {
+            fromPlace,
+            toPlace,
+            departureTime: finalDate,
+            availablePlaces
+        };
+        createTrain(trainData).then(() => onHide());
     };
 
     return (
-        <Modal
-            show={show}
-            onHide={onHide}
-            centered
-        >
+        <Modal show={show} onHide={onHide} centered>
             <Modal.Header>
                 <Modal.Title id="contained-modal-title-vcenter">
                     Добавить рейс (Дата в формате 01 01 2023)
@@ -92,4 +87,3 @@ export const Train: React.FC<Props> = ({ show, onHide }) => {
         </Modal>
     );
 };
-
