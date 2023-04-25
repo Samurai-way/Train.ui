@@ -7,13 +7,13 @@ interface TrainInfo {
     availablePlaces: number;
 }
 
-const REACT_APP_API_URL = 'http://localhost:5000/';
+const REACT_APP_API_URL = 'http://localhost:3000/';
 const $host: AxiosInstance = axios.create({
     baseURL: REACT_APP_API_URL,
 });
 
 export const createTrain = async (trainInfo: any): Promise<TrainInfo> => {
-    const { data }: AxiosResponse<TrainInfo> = await $host.post('api/train', {
+    const { data }: AxiosResponse<TrainInfo> = await $host.post('train', {
         fromPlace: trainInfo.fromPlace,
         toPlace: trainInfo.toPlace,
         departureTime: trainInfo.departureTime,
@@ -26,7 +26,7 @@ export const fetchTrains = async (
     fromPlace: string,
     toPlace: string
 ): Promise<TrainInfo[]> => {
-    const { data }: AxiosResponse<TrainInfo[]> = await $host.get('api/train', {
+    const { data }: AxiosResponse<TrainInfo[]> = await $host.get('train', {
         params: {
             fromPlace,
             toPlace,

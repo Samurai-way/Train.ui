@@ -1,11 +1,15 @@
 import React from 'react';
 import './App.css';
-import {Shop} from "../shop/Shop";
+import {ShowTrains} from "../shop/ShowTrains";
+
+
+
+
 
 function App() {
   return (
     <div className="App">
-        <Shop/>
+        <ShowTrains/>
     </div>
   );
 }

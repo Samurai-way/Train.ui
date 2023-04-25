@@ -1,89 +1,49 @@
 import React, { useState } from 'react';
-import Modal from "react-bootstrap/Modal";
-import {createTrain} from "../../api/trainApi";
-import {Button, Form, Row} from "react-bootstrap";
+// @ts-ignore
+import styles from './Train.module.css';
 
-interface Props {
-    show: boolean;
-    onHide: () => void;
+interface TrainModalProps {
+    isOpen: boolean;
+    onClose: () => void;
 }
 
-export const Train: React.FC<Props> = ({ show, onHide }) => {
-    const [fromPlace, setFromPlace] = useState<string>('');
-    const [toPlace, setToPlace] = useState<string>('');
-    const [departureDay, setDepartureDay] = useState<string>('');
-    const [departureMonth, setDepartureMonth] = useState<string>('');
-    const [departureYear, setDepartureYear] = useState<string>('');
-    const [availablePlaces, setAvailablePlaces] = useState<string>('');
+export const Train: React.FC<TrainModalProps> = ({ isOpen, onClose }) => {
+    const [from, setFrom] = useState<string>('');
+    const [to, setTo] = useState<string>('');
+    const [date, setDate] = useState<string>('');
 
-    const addTrain = () => {
-        const finalDate = `${departureYear}-${departureMonth}-${departureDay}`;
-        const trainData = {
-            fromPlace,
-            toPlace,
-            departureTime: finalDate,
-            availablePlaces
-        };
-        createTrain(trainData).then(() => onHide());
+    const handleFromChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setFrom(event.target.value);
     };
 
-    return (
-        <Modal show={show} onHide={onHide} centered>
-            <Modal.Header>
-                <Modal.Title id="contained-modal-title-vcenter">
-                    Добавить рейс (Дата в формате 01 01 2023)
-                </Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                <Form>
-                    <Form.Control
-                        value={fromPlace}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFromPlace(e.target.value)}
-                        placeholder={"Откуда отправляется поезд"}
-                    />
-                </Form>
-                <Form>
-                    <Form.Control
-                        value={toPlace}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setToPlace(e.target.value)}
-                        placeholder={"Куда отправляется поезд"}
-                    />
-                </Form>
-                <Row>
-                    <Form>
-                        <Form.Control
-                            value={departureDay}
-                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDepartureDay(e.target.value)}
-                            placeholder={"День отправления"}
-                        />
-                    </Form>
-                    <Form>
-                        <Form.Control
-                            value={departureMonth}
-                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDepartureMonth(e.target.value)}
-                            placeholder={"Месяц отправления"}
-                        />
-                    </Form>
-                    <Form>
-                        <Form.Control
-                            value={departureYear}
-                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDepartureYear(e.target.value)}
-                            placeholder={"Год отправления"}
-                        />
-                    </Form>
-                </Row>
-                <Form>
-                    <Form.Control
-                        value={availablePlaces}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAvailablePlaces(e.target.value)}
-                        placeholder={"Количество свободных мест"}
-                    />
-                </Form>
-            </Modal.Body>
-            <Modal.Footer>
-                <Button variant="outline-success" onClick={addTrain} >Добавить</Button>
-                <Button variant="outline-danger" onClick={onHide} >Закрыть</Button>
-            </Modal.Footer>
-        </Modal>
-    );
+    const handleToChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setTo(event.target.value);
+    };
+
+    const handleDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setDate(event.target.value);
+    };
+
+    const handleCreateTripClick = () => {
+        console.log(`Creating trip from ${from} to ${to} on ${date}`);
+        // Implement logic to create a new trip here
+        onClose();
+    };
+
+    return isOpen ? (
+        <div className={styles.modal}>
+            <h2>Create a new trip</h2>
+            <label htmlFor="from-input">From: </label>
+            <input type="text" id="from-input" value={from} onChange={handleFromChange} />
+            <br />
+            <label htmlFor="to-input">To: </label>
+            <input type="text" id="to-input" value={to} onChange={handleToChange} />
+            <br />
+            <label htmlFor="date-input">Date: </label>
+            <input type="date" id="date-input" value={date} onChange={handleDateChange} />
+            <br />
+            <button onClick={handleCreateTripClick}>Create Trip</button>
+            <button onClick={onClose}>Close</button>
+        </div>
+    ) : null;
 };
