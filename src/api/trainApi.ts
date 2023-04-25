@@ -1,36 +1,45 @@
 import axios, { AxiosInstance, AxiosResponse } from "axios";
 
-interface TrainInfo {
+type TrainInfo ={
     fromPlace: string;
     toPlace: string;
     departureTime: string;
-    availablePlaces: number;
 }
 
-const REACT_APP_API_URL = 'http://localhost:3000/';
+const url = 'http://localhost:3000/train';
 const $host: AxiosInstance = axios.create({
-    baseURL: REACT_APP_API_URL,
+    baseURL: url,
 });
 
-export const createTrain = async (trainInfo: any): Promise<TrainInfo> => {
-    const { data }: AxiosResponse<TrainInfo> = await $host.post('train', {
-        fromPlace: trainInfo.fromPlace,
-        toPlace: trainInfo.toPlace,
-        departureTime: trainInfo.departureTime,
-        availablePlaces: trainInfo.availablePlaces,
-    });
-    return data;
+export const createTrainTrip = async (trainInfo: TrainInfo) => {
+    try {
+        const { status } = await $host.post('/create', {
+            fromPlace: trainInfo.fromPlace,
+            toPlace: trainInfo.toPlace,
+            departureTime: trainInfo.departureTime,
+        }, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        return status === 204;
+    } catch (error) {
+        console.error(error);
+    }
 };
 
-export const fetchTrains = async (
+
+
+export const findTrains = async (
     fromPlace: string,
     toPlace: string
 ): Promise<TrainInfo[]> => {
-    const { data }: AxiosResponse<TrainInfo[]> = await $host.get('train', {
+    const { data }: AxiosResponse<TrainInfo[]> = await $host.get('', {
         params: {
             fromPlace,
             toPlace,
         },
     });
+    console.log('data', data)
     return data;
 };

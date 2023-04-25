@@ -1,13 +1,19 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {Train} from "../modals/Train";
+import {useAppDispatch, useAppSelector} from "../../hooks/redux";
+import {fetchTrain} from "../../reducers/ActionCreators";
+import {Trains} from "../modals/Trains";
 
 
-interface ShowTrainsProps {}
+export const ShowTrains = () => {
+    const dispatch = useAppDispatch()
+    const trains = useAppSelector((state) => state.trainReducer.trains);
 
-export const ShowTrains: React.FC<ShowTrainsProps> = () => {
     const [from, setFrom] = useState<string>('');
     const [to, setTo] = useState<string>('');
     const [showModal, setShowModal] = useState<boolean>(false);
+    const [show, setShow]=useState<boolean>(false)
+
 
     const handleFromChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setFrom(event.target.value);
@@ -17,13 +23,12 @@ export const ShowTrains: React.FC<ShowTrainsProps> = () => {
         setTo(event.target.value);
     };
 
-    const handleShowTrainsClick = () => {
-        console.log(`Showing trains from ${from} to ${to}`);
-        // Implement logic to show trains here
+    const handleShowTrainsClick = async () => {
+        await fetchTrain(from, to, dispatch)
+        setShow(true)
     };
 
     const handleCreateTripClick = () => {
-        console.log(`Creating trip from ${from} to ${to}`);
         setShowModal(true);
     };
 
@@ -35,11 +40,11 @@ export const ShowTrains: React.FC<ShowTrainsProps> = () => {
         <div>
             <h2>Where are you traveling from and to?</h2>
             <label htmlFor="from-input">From: </label>
-            <input type="text" id="from-input" value={from} onChange={handleFromChange} />
-            <br />
+            <input type="text" id="from-input" value={from} onChange={handleFromChange}/>
+            <br/>
             <label htmlFor="to-input">To: </label>
-            <input type="text" id="to-input" value={to} onChange={handleToChange} />
-            <br />
+            <input type="text" id="to-input" value={to} onChange={handleToChange}/>
+            <br/>
             <button onClick={handleShowTrainsClick}>Show Trains</button>
             <button onClick={handleCreateTripClick}>Create Trip</button>
 
@@ -48,6 +53,9 @@ export const ShowTrains: React.FC<ShowTrainsProps> = () => {
                     isOpen={showModal}
                     onClose={handleCloseModalClick}
                 />
+            )}
+            {show && (
+                <Trains isOpen={show} onClose={handleShowTrainsClick} trains={trains}/>
             )}
         </div>
     );
