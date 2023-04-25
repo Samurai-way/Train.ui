@@ -12,7 +12,7 @@ const $host: AxiosInstance = axios.create({
     baseURL: REACT_APP_API_URL,
 });
 
-export const createTrain = async (trainInfo: TrainInfo): Promise<TrainInfo> => {
+export const createTrain = async (trainInfo: any): Promise<TrainInfo> => {
     const { data }: AxiosResponse<TrainInfo> = await $host.post('api/train', {
         fromPlace: trainInfo.fromPlace,
         toPlace: trainInfo.toPlace,
