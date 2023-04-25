@@ -5,7 +5,7 @@ import {trainSlice} from "./TrainSlice";
 
 export const fetchTrain = async (fromPlace: string, toPlace: string, dispatch: AppDispatch): Promise<any> => {
     try {
-        const response = await axios.get(`http://localhost:3000/train`, {
+        const response = await axios.get(`https://trainapi-production.up.railway.app/train`, {
             params: {
                 fromPlace,
                 toPlace,

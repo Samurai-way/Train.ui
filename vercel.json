@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "name": "trains.api",
+  "name": "Train.ui",
   "builds": [
     {
       "src": "src/main.ts",

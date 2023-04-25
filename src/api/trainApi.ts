@@ -1,19 +1,19 @@
-import axios, { AxiosInstance, AxiosResponse } from "axios";
+import axios, {AxiosInstance} from "axios";
 
-type TrainInfo ={
+type TrainInfo = {
     fromPlace: string;
     toPlace: string;
     departureTime: string;
 }
 
-const url = 'http://localhost:3000/train';
+const url = 'https://trainapi-production.up.railway.app/train';
 const $host: AxiosInstance = axios.create({
     baseURL: url,
 });
 
 export const createTrainTrip = async (trainInfo: TrainInfo) => {
     try {
-        const { status } = await $host.post('/create', {
+        const {status} = await $host.post('/create', {
             fromPlace: trainInfo.fromPlace,
             toPlace: trainInfo.toPlace,
             departureTime: trainInfo.departureTime,
@@ -26,20 +26,4 @@ export const createTrainTrip = async (trainInfo: TrainInfo) => {
     } catch (error) {
         console.error(error);
     }
-};
-
-
-
-export const findTrains = async (
-    fromPlace: string,
-    toPlace: string
-): Promise<TrainInfo[]> => {
-    const { data }: AxiosResponse<TrainInfo[]> = await $host.get('', {
-        params: {
-            fromPlace,
-            toPlace,
-        },
-    });
-    console.log('data', data)
-    return data;
 };
